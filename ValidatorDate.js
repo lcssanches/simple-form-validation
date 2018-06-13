@@ -1,5 +1,5 @@
 import moment from 'moment';
-class ValidatorDate extends Validator {
+export default class ValidatorDate extends Validator {
 
   _checkDate(dateString, format){
     
