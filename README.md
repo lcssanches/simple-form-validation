@@ -31,7 +31,11 @@ SFV.validate(values).then(()=>{
   //errors -> list of errors :)
 });
 
-// OR - SVF.validateSync(values): returns bool
-//      SVF.errors //list of errors
+// OR - SFV.validateSync(values): returns bool
+//      SFV.errors //list of errors
 
+//Display all errors
+SFV.renderError();
+// OR - specific item, usefull for forms
+SFV.renderError('keyname');
 ```
