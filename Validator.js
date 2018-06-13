@@ -1,4 +1,4 @@
-class Validator {
+export default class Validator {
   constructor(defaultMessage){
     this.defaultMessage = defaultMessage || "<!> UNDEFINED MESSAGE <!>";
     this.message = '';
