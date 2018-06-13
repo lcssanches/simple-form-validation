@@ -1,3 +1,4 @@
+import Validator from './Validator';
 export default class ValidatorString extends Validator {
 
     regex(regex, message){

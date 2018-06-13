@@ -1,6 +1,6 @@
-import ValidatorOnlyNumbers from 'ValidatorOnlyNumbers';
-import ValidatorString from 'ValidatorString';
-import ValidatorDate from 'ValidatorDate';
+import ValidatorOnlyNumbers from './ValidatorOnlyNumbers';
+import ValidatorString from './ValidatorString';
+import ValidatorDate from './ValidatorDate';
 export default class ValidationRule {
   constructor() {
     this.validator = null;

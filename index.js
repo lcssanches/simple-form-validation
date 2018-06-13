@@ -1,4 +1,4 @@
-import ValidationRule from 'ValidationRule';
+import ValidationRule from './ValidationRule';
 export default class SimpleFormValidation { 
   constructor() {
     this.rules = [];

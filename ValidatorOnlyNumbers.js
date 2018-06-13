@@ -1,3 +1,4 @@
+import Validator from './Validator';
 export default class ValidatorOnlyNumbers extends Validator {
 
   min(minValue, message) {

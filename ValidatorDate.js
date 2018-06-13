@@ -1,3 +1,4 @@
+import Validator from './Validator';
 import moment from 'moment';
 export default class ValidatorDate extends Validator {
 
