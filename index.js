@@ -31,14 +31,14 @@ export default class SimpleFormValidation {
   renderAllErrors() {
     const errorList = [];
     for(var key in this.errors){
-      errorList.push(this.displayErrorCallback(this.error[key]));
+      errorList.push(this.displayErrorCallback(this.errors[key]));
     }    
     return errorList;
   }
   
   renderError(key) {
-    if(typeof this.error[key] === 'undefined') return;
-    return this.displayErrorCallback(this.error[key]);
+    if(typeof this.errors[key] === 'undefined') return;
+    return this.displayErrorCallback(this.errors[key]);
   }
   
   setRuleFor(stateKeyName) {
