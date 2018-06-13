@@ -65,5 +65,4 @@ SVF.validate({
 }).catch(err =>{
   // all good (?)
 });
-
 ```
