@@ -11,7 +11,7 @@
     "url": "https://github.com/lcssanches/simple-form-validation.git"
   },
   "keywords": ["js", "nodejs", "react-native", "react", "validation"],
-  "author": "lcssanches",
+  "author": "Lucas Sanches <lcssanches@hotmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/lcssanches/simple-form-validation/issues"
