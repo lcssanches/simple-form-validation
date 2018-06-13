@@ -1,5 +1,5 @@
 import ValidationRule from 'ValidationRule';
-class SimpleFormValidation { 
+export default class SimpleFormValidation { 
   constructor() {
     this.rules = [];
     this.errors = {};
