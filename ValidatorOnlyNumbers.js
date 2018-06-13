@@ -1,4 +1,4 @@
-class ValidatorOnlyNumbers extends Validator {
+export default class ValidatorOnlyNumbers extends Validator {
 
   min(minValue, message) {
    
