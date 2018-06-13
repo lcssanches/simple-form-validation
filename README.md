@@ -44,6 +44,8 @@ SVF.renderError('keyname')
 // By default, renderError will just return the error message if it exists, what about customize a little?
 SVF.setDisplayErrorCallback(function(errorMessage) {
   return `<p style="color: red">ERROR! ${errorMessage}</p>`;
+  // Or, maybe, a react-native component?
+  //return <Text style{styles.error}>{errorMessage}</Text>
 });
 
 
