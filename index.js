@@ -3,6 +3,9 @@ export default class SimpleFormValidation {
   constructor() {
     this.rules = [];
     this.errors = {};
+    this.displayErrorCallback = function(text) {
+      return text;
+    }
   }
 
   reset() {
@@ -14,6 +17,9 @@ export default class SimpleFormValidation {
     this.errors[stateKeyName] = msg;
   }
 
+  setDisplayErrorCallback(callback){
+    this.displayErrorCallback = callback;
+  }
   resetErrors() {
     this.errors = {};
   }
@@ -22,23 +28,20 @@ export default class SimpleFormValidation {
     return Object.keys(this.errors).length > 0;
   }
 
-  renderError(key) {
-    if(typeof key === 'undefined') {
-      document.write('<p style="color: red;">Errors</p>');
-      document.write('<ul>');
-      for(var key in sfv.errors){
-        document.write('<li>'+key+' - '+sfv.errors[key]+'</li>');
-      }
-      document.write('</ul>');
-      return;
-    }
-   
-    if(typeof this.error[key] === 'undefined') return;
-   
-    document.write('<p>'+key+' - '+this.error[key]+'</p>');
+  renderAllErrors() {
+    const errorList = [];
+    for(var key in this.errors){
+      errorList.push(this.displayErrorCallback(this.error[key]));
+    }    
+    return errorList;
   }
+  
+  renderError(key) {
+    if(typeof this.error[key] === 'undefined') return;
+    return this.displayErrorCallback(this.error[key]);
+  }
+  
   setRuleFor(stateKeyName) {
-
     const validationRule = new ValidationRule();
     this.rules[stateKeyName] = validationRule;
     return validationRule;
