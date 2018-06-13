@@ -24,6 +24,10 @@ export default class SimpleFormValidation {
     this.errors = {};
   }
  
+  isValid(){
+    return !this.hasErrors();
+  }
+  
   hasErrors(){
     return Object.keys(this.errors).length > 0;
   }
@@ -36,9 +40,16 @@ export default class SimpleFormValidation {
     return errorList;
   }
   
-  renderError(key) {
-    if(typeof this.errors[key] === 'undefined') return;
-    return this.displayErrorCallback(this.errors[key]);
+  renderError(key, value) {
+    if (typeof this.rules[key] === 'undefined') return null;
+    const result = this.rules[key].validator.run(value);
+    if (result !== true) {
+      this.addError(key, this.rules[key].validator.getMessage());
+      return this.displayErrorCallback(this.errors[key]);
+    } else {
+      delete this.errors[key];
+      return null;
+    }
   }
   
   setRuleFor(stateKeyName) {
