@@ -1,7 +1,7 @@
 import ValidatorOnlyNumbers from 'ValidatorOnlyNumbers';
 import ValidatorString from 'ValidatorString';
 import ValidatorDate from 'ValidatorDate';
-class ValidationRule {
+export default class ValidationRule {
   constructor() {
     this.validator = null;
   }
