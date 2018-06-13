@@ -1,4 +1,4 @@
-class ValidatorString extends Validator {
+export default class ValidatorString extends Validator {
 
     regex(regex, message){
 
