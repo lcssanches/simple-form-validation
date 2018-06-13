@@ -25,13 +25,45 @@ const values = {
   keyname2: 'succes',//s
 }
 
+//Promise usage
 SFV.validate(values).then(()=>{
   //all good, let's go
 }).catch((errors)=>{
   //errors -> list of errors :)
 });
 
-// OR - SVF.validateSync(values): returns bool
-//      SVF.errors //list of errors
+// OR - sync old-fashion way
+SVF.validateSync(values); // returns true/false
+
+// You can access the errors here
+SVF.errors;
+
+// OR - render it direct
+SVF.renderError('keyname')
+
+// By default, renderError will just return the error message if it exists, what about customize a little?
+SVF.setDisplayErrorCallback(function(errorMessage) {
+  return `<p style="color: red">ERROR! ${errorMessage}</p>`;
+});
+
+
+// How about adding a custom validator?
+
+class IsNumberOnValidator extends Validator {
+  isNumberOne(message){
+    this.addStep('isNumberOne', v => return v === 1, message);
+  }
+}
+
+SVF.reset(); // clear validators and errors
+SVFsetRuleFor('AmINumberOne').custom(new IsNumberOnValidator()).isNumberOne('You shall not pass!');
+
+SVF.validate({
+  AmINumberOne: 2
+}).then(()={
+  //you should not be here
+}).catch(err =>{
+  // all good (?)
+});
 
 ```
