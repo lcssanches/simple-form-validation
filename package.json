@@ -19,5 +19,5 @@
   "homepage": "https://github.com/lcssanches/simple-form-validation",
   "dependencies": {
     "moment": "^2.22.2"
-  },
+  }
 }
