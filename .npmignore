@@ -10,3 +10,7 @@
 config.gypi
 CVS
 npm-debug.log
+.babelrc
+node_modules
+_config.yml
+test

@@ -11,11 +11,10 @@ export default class Validator {
  
   required(message){
     this.addStep('required', v => {
-      console.log('required running "'+v+'"');
       if(typeof v === 'undefined') return false;
       if(String(v) === '') return false;
       return true;
-    })
+    }, message)
   }
   
   run(value) {

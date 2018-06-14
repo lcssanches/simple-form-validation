@@ -1,6 +1,7 @@
 import ValidatorOnlyNumbers from './ValidatorOnlyNumbers';
 import ValidatorString from './ValidatorString';
 import ValidatorDate from './ValidatorDate';
+import ValidatorEmail from './ValidatorEmail';
 export default class ValidationRule {
   constructor() {
     this.validator = null;
@@ -24,6 +25,10 @@ export default class ValidationRule {
   date(message) {
     this.validator = new ValidatorDate(message);
     return this.validator;
+  }
+
+  email(message){
+    this.validator = new ValidatorEmail(message);
   }
 
 }
