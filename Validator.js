@@ -9,6 +9,15 @@ export default class Validator {
     this.steps.push({ name, callback, message });
   }
  
+  required(message){
+    this.addStep('required', v => {
+      console.log('required running "'+v+'"');
+      if(typeof v === 'undefined') return false;
+      if(String(v) === '') return false;
+      return true;
+    })
+  }
+  
   run(value) {
     for(let i = 0; i<this.steps.length; i++){
       if(!this.steps[i].callback(value)){
