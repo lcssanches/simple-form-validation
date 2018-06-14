@@ -29,6 +29,7 @@ export default class ValidationRule {
 
   email(message){
     this.validator = new ValidatorEmail(message);
+    return this.validator;
   }
 
 }
