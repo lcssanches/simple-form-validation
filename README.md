@@ -84,17 +84,17 @@ SFV.validate(values).then(()=>{
 });
 
 // OR - sync old-fashion way
-SVF.validateSync(values); // returns true/false
+SFV.validateSync(values); // returns true/false
 
 // You can access the errors here
-SVF.errors;
+SFV.errors;
 ```
 
 ##### Rendering
 
 By default, renderError will just return the error message (if it exists), so you can customize a little
 ```
-SVF.setDisplayErrorCallback(function(errorMessage) {
+SFV.setDisplayErrorCallback(function(errorMessage) {
   return `<p style="color: red">ERROR! ${errorMessage}</p>`;
   // Or, maybe, a react-native component?
   //return <Text style={styles.error}>{errorMessage}</Text>
