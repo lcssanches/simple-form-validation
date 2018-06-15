@@ -1,15 +1,25 @@
 import ValidationRule from './ValidationRule';
 export default class SimpleFormValidation { 
-  constructor() {
+  constructor(justRenderAfterValidate = true) {
+    //TODO: Add tests to 'justRenderAfterValidate'
     this.rules = [];
     this.errors = {};
     this.displayErrorCallback = function(text) {
       return text;
     }
+    this._validateHasRan = false;
+    this.justRenderAfterValidate = justRenderAfterValidate;
+  }
+
+  canRender(){
+    if(!this.justRenderAfterValidate) return true;
+    
+    return this.justRenderAfterValidate && !this._validateHasRan;
   }
 
   reset() {
     this.rules = [];
+    this._validateHasRan = false;
     this.resetErrors();
   }
 
@@ -33,6 +43,7 @@ export default class SimpleFormValidation {
   }
 
   renderAllErrors() {
+    if(!this.canRender()) return null;
     const errorList = [];
     for(var key in this.errors){
       errorList.push(this.displayErrorCallback(this.errors[key]));
@@ -41,6 +52,7 @@ export default class SimpleFormValidation {
   }
   
   renderError(key, value) {
+    if(!this.canRender()) return null;
     if (typeof this.rules[key] === 'undefined') return null;
     const result = this.rules[key].validator.run(value);
     if (result !== true) {
@@ -68,6 +80,7 @@ export default class SimpleFormValidation {
     });
   }
   validateSync(state){
+    this._validateHasRan = true;
     this.resetErrors();
     for(var key in this.rules){
    
