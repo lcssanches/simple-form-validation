@@ -2,6 +2,7 @@ import ValidatorOnlyNumbers from './ValidatorOnlyNumbers';
 import ValidatorString from './ValidatorString';
 import ValidatorDate from './ValidatorDate';
 import ValidatorEmail from './ValidatorEmail';
+import ValidatorCPF from './ValidatorCPF';
 export default class ValidationRule {
   constructor() {
     this.validator = null;
@@ -12,23 +13,28 @@ export default class ValidationRule {
     return this.validator;
   }
 
-  numeric(message) {
-    this.validator = new ValidatorOnlyNumbers(message);
+  numeric(m) {
+    this.validator = new ValidatorOnlyNumbers(m);
     return this.validator;
   }
  
-  text(message){
-    this.validator = new ValidatorString(message);
+  text(m){
+    this.validator = new ValidatorString(m);
     return this.validator;
   }
   
-  date(message) {
-    this.validator = new ValidatorDate(message);
+  date(m) {
+    this.validator = new ValidatorDate(m);
     return this.validator;
   }
 
-  email(message){
-    this.validator = new ValidatorEmail(message);
+  email(m){
+    this.validator = new ValidatorEmail(m);
+    return this.validator;
+  }
+
+  cpf(m){
+    this.validator = new ValidatorCPF(m);
     return this.validator;
   }
 

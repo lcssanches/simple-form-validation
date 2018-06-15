@@ -1,0 +1,8 @@
+ValidatorPassword
+	.minStrenght(1-10)
+	//1, weak, but at least has six chars
+	//10, unbeliveble WTF!!!!!
+
+ValidatorBrazil
+	.cpf(message)
+	.cep(message) //checa o formato [0-9]{5}\-[0-9]{3}
