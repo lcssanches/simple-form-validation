@@ -13,8 +13,8 @@ export default class SimpleFormValidation {
 
   canRender(){
     if(!this.justRenderAfterValidate) return true;
-    
-    return this.justRenderAfterValidate && !this._validateHasRan;
+
+    return this.justRenderAfterValidate && this._validateHasRan;
   }
 
   reset() {
