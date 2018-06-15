@@ -50,7 +50,7 @@ const values = {
   keyname2: 'succes',//s
 }
 /* more logic */
-SFV.renderError('keyname', state.keyname); //returns the message of the error.
+SFV.renderError('keyname', values.keyname); //returns the message of the error.
 ```
 
 React-native simple example:
