@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --require babel-core/register",
     "clean": "rimraf dist/*",
-    "deploy": "npm run clean && grunt && cpx package.json dist/ && cpx README.md dist/"
+    "deploy": "npm run test && npm run clean && grunt && cpx package.json dist/ && cpx README.md dist/"
   },
   "repository": {
     "type": "git",
