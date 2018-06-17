@@ -35,8 +35,8 @@ export default class ValidationRule {
     return this.validator;
   }
   
-  date(m) {
-    this.validator = new ValidatorDate(m);
+  date(format, m) {
+    this.validator = new ValidatorDate(format, m);
     return this.validator;
   }
 
