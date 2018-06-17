@@ -5,6 +5,17 @@ export default class Validator {
     this.steps = [];
   }
  
+  _stepExists(name){
+
+    for ( let i = 0; i < this.steps.length ; i++ ){
+      if(this.steps[i].name == name){
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   addStep(name, callback, message){
     this.steps.push({ name, callback, message });
   }
