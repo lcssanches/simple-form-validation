@@ -61,6 +61,9 @@ export default class SimpleFormValidation {
 
       const errorMessage = this.rules[field].getMessage();
       this.addError(field, errorMessage);
+      if(errorMessage==''){
+        console.warn(`Empty validator message to '${field}'.`);
+      }
       return this.displayErrorCallback( errorMessage );
 
     } else {
