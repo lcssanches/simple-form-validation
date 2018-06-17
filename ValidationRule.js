@@ -8,6 +8,18 @@ export default class ValidationRule {
     this.validator = null;
   }
 
+  hasError(){
+    return this.validator.failed === true;
+  }
+
+  run(value){
+    return this.validator.run(value);
+  }
+
+  getMessage(){
+    return this.validator.getMessage();
+  }
+
   customValidator(validator) {
     this.validator = validator;
     return this.validator;

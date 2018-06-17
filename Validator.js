@@ -1,14 +1,15 @@
 export default class Validator {
-  constructor(defaultMessage){
-    this.defaultMessage = defaultMessage || "<!> UNDEFINED MESSAGE <!>";
+  constructor(defaultMessage) {
+    this.defaultMessage = defaultMessage || '<!> UNDEFINED MESSAGE <!>';
     this.message = '';
     this.steps = [];
-  }
- 
-  _stepExists(name){
 
-    for ( let i = 0; i < this.steps.length ; i++ ){
-      if(this.steps[i].name == name){
+    this.failed = false;
+  }
+
+  _stepExists(name) {
+    for (let i = 0; i < this.steps.length; i++) {
+      if (this.steps[i].name == name) {
         return true;
       }
     }
@@ -16,38 +17,47 @@ export default class Validator {
     return false;
   }
 
-  addStep(name, callback, message){
+  addStep(name, callback, message) {
     this.steps.push({ name, callback, message });
   }
- 
-  required(message){
-    this.addStep('required', v => {
-      if(typeof v === 'undefined') return false;
-      if(String(v) === '') return false;
-      return true;
-    }, message);
+
+  required(message) {
+    this.addStep(
+      'required',
+      v => {
+        if (typeof v === 'undefined') return false;
+        if (String(v) === '') return false;
+        return true;
+      },
+      message
+    );
     return this;
   }
-  
+
   run(value) {
-    for(let i = 0; i<this.steps.length; i++){
-      if(!this.steps[i].callback(value)){
+    this.failed = false;
+    for (let i = 0; i < this.steps.length; i++) {
+      if (!this.steps[i].callback(value)) {
         return this.fail(this.steps[i].message);
       }
     }
     return true;
   }
-  fail(message){
+
+  fail(message) {
+    this.failed = true;
     this.setMessage(message);
     return false;
   }
-  setMessage(message){
+
+  setMessage(message) {
     this.message = message;
   }
-  getMessage(){
-    if( this.message && this.message != '' ) {
+
+  getMessage() {
+    if (this.message && this.message != '') {
       return this.message;
-    } else{
+    } else {
       return this.defaultMessage;
     }
   }
