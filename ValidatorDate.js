@@ -4,6 +4,10 @@ export default class ValidatorDate extends Validator {
 
   constructor(format, message){
     super(message);
+    
+    if(typeof format === 'undefined' || format == '')
+      throw new Error('date format cannot be null');
+      
     this._dateFormat = format;
   }
   minAge(_minAge, message){
