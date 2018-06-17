@@ -70,10 +70,11 @@ export default class SimpleFormValidation {
     }
   }
 
-  field(fieldName){
-    const validationRule = new ValidationRule();
-    this.rules[fieldName] = validationRule;
-    return validationRule;
+  field(fieldName, reset = false){
+    if(reset || typeof this.rules[fieldName] === 'undefined') {
+      this.rules[fieldName] = new ValidationRule();
+    }
+    return this.rules[fieldName];
   }
  
   validate(state){
