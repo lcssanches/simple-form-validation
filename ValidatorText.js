@@ -4,7 +4,7 @@ export default class ValidatorText extends Validator {
     regex(regex, message){
 
       const callback = function (v) {
-        return !!v.match(regex)
+        return regex.test(v);
       };
        
       this.addStep(
