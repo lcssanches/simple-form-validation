@@ -1,5 +1,5 @@
-import ValidatorOnlyNumbers from './ValidatorOnlyNumbers';
-import ValidatorString from './ValidatorString';
+import ValidatorNumeric from './ValidatorNumeric';
+import ValidatorText from './ValidatorText';
 import ValidatorDate from './ValidatorDate';
 import ValidatorEmail from './ValidatorEmail';
 import ValidatorCPF from './ValidatorCPF';
@@ -26,12 +26,12 @@ export default class ValidationRule {
   }
 
   numeric(m) {
-    this.validator = new ValidatorOnlyNumbers(m);
+    this.validator = new ValidatorNumeric(m);
     return this.validator;
   }
  
   text(m){
-    this.validator = new ValidatorString(m);
+    this.validator = new ValidatorText(m);
     return this.validator;
   }
   
