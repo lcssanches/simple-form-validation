@@ -42,6 +42,12 @@ export default class SimpleFormValidation {
     return Object.keys(this.errors).length > 0;
   }
 
+  hasError(key){
+    if ( typeof key === 'undefined' ) return false;
+    if ( typeof this.errors[key] === 'undefined') return false;
+    return true;
+  }
+
   renderAllErrors() {
     if(!this.canRender()) return null;
     const errorList = [];
@@ -63,10 +69,10 @@ export default class SimpleFormValidation {
       return null;
     }
   }
-  
-  setRuleFor(stateKeyName) {
+
+  field(fieldName){
     const validationRule = new ValidationRule();
-    this.rules[stateKeyName] = validationRule;
+    this.rules[fieldName] = validationRule;
     return validationRule;
   }
  
