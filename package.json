@@ -4,7 +4,9 @@
   "version": "0.1.13",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --require babel-core/register"
+    "test": "mocha --require babel-core/register",
+    "clean": "rimraf dist/*",
+    "deploy": "npm run clean && grunt && cpx package.json dist/ && cpx README.md dist/"
   },
   "repository": {
     "type": "git",
@@ -24,11 +26,16 @@
   },
   "homepage": "https://github.com/lcssanches/simple-form-validation",
   "dependencies": {
+    "cpx": "^1.5.0",
     "moment": "^2.22.2"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
     "babel-register": "^6.26.0",
+    "grunt": "^1.0.3",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0",
     "mocha": "^5.2.0"
   }
 }
