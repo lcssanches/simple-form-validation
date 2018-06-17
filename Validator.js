@@ -25,7 +25,8 @@ export default class Validator {
       if(typeof v === 'undefined') return false;
       if(String(v) === '') return false;
       return true;
-    }, message)
+    }, message);
+    return this;
   }
   
   run(value) {
