@@ -2,16 +2,15 @@ import Validator from './Validator';
 import moment from 'moment';
 export default class ValidatorDate extends Validator {
 
-  _checkDate(dateString, format){
-    
-    return moment(dateString, format, true).isValid();
-  }
   minAge(_minAge, message){
     this.addStep(
       'minAge',
       function(v) {
-        throw new Error("calculate age");
-        return age(v.length) >= _minAge;
+        
+        if(!moment(v).isValid()){
+          return false;
+        }
+        return moment().diff(v, 'years',false) >= _minAge;
       },
       message
     );
@@ -21,20 +20,23 @@ export default class ValidatorDate extends Validator {
     this.addStep(
       'minAge',
       function(v) {
-        throw new Error("calculate age");
-        return age(v.length) <= _maxAge;
+        if(!moment(v).isValid()){
+          return false;
+        }
+        return moment().diff(v, 'years',false) <= _maxAge;
       },
       message
     );
     return this;
   }
   
-  isDate(format='yyyy-MM-dd', message){
+  valid(format='YYYY-MM-DD', message){
     this.addStep(
-      'isDate',
-      function(v) {
-        throw new Error("isDate");
-        return isDate(v);
+      'valid',
+      (v) => {
+
+        return moment(v, format, true).isValid();
+
       },
       message
     );
