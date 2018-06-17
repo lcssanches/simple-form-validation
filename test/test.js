@@ -140,14 +140,14 @@ describe('ValidatorDate', function (){
   let validDate = "2018-01-01";
   it(`"${validDate}" should be an Date`, function(){
     const _sfv = new SFV();
-    _sfv.field('testkey').date().valid();
+    _sfv.field('testkey').date('YYYY-MM-DD').valid();
     _sfv.validateSync({"testkey":validDate});
     assert(_sfv.isValid());
   });
   let invalidDate = '2018-13-33';
   it(`"${invalidDate}" should be an invalid Date`, function(){
     const _sfv = new SFV();
-    _sfv.field('testkey').date().valid();
+    _sfv.field('testkey').date('YYYY-MM-DD').valid();
     _sfv.validateSync({"testkey":invalidDate});
     assert(!_sfv.isValid());
   });
