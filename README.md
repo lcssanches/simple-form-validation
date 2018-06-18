@@ -114,14 +114,20 @@ SFV.errors;
 
 ##### Rendering
 
-By default, renderError will just return the error message (if it exists), so you can customize a little
+By default, renderError will just return the error message (if it exists)
 
 ```
-const style = {}
+const styles = StyleSheet.create({
+  error:{
+    color: '#d00',
+    fontSize: 12,
+  }
+});
 SFV.setDisplayErrorCallback(function(message) {
   return <Text style={styles.error}>{message}</Text>
 });
 ```
+
 > If a field has error, but no message was set, a warning will be generated before it's rendered. It will call the renderer callback anyway.
 
 ##### Custom validators
