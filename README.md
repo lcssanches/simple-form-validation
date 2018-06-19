@@ -1,6 +1,6 @@
-
-[![npm](https://img.shields.io/npm/v/simple-form-validation.svg)](https://www.npmjs.com/package/simple-form-validation)
-[![Build Status](https://travis-ci.org/lcssanches/simple-form-validation.svg?branch=master)](https://travis-ci.org/lcssanches/simple-form-validation)
+![GitHub last commit](https://img.shields.io/github/last-commit/lcssanches/simple-form-validation.svg?style=for-the-badge)
+[![npm](https://img.shields.io/npm/v/simple-form-validation.svg?style=for-the-badge)](https://www.npmjs.com/package/simple-form-validation)
+[![Travis](https://img.shields.io/travis/lcssanches/simple-form-validation.svg?style=for-the-badge)](https://travis-ci.org/lcssanches/simple-form-validation)
 
 
 # Simple Form Validation
