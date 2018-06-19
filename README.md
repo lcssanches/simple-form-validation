@@ -1,3 +1,7 @@
+
+[![npm](https://img.shields.io/npm/v/simple-form-validation.svg)](https://www.npmjs.com/package/simple-form-validation)
+
+
 # Simple Form Validation
 
 An easy-to-use **react-native form validation** highly customizable.
