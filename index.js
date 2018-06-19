@@ -1,20 +1,31 @@
-import ValidationRule from './ValidationRule';
-export default class SimpleFormValidation { 
-  constructor(justRenderAfterValidate = true) {
+import Field from './Field';
+
+const defaultOptions = {
+  justRenderAfterValidate: true,
+  defaultMessage: '',
+  displayErrorCallback: text => {
+    return text;
+  }
+};
+
+export default class SimpleFormValidation {
+  constructor(params) {
+
     //TODO: Add tests to 'justRenderAfterValidate'
+
+    this.options = {...defaultOptions, ...params};
+
     this.rules = [];
     this.errors = {};
-    this.displayErrorCallback = function(text) {
-      return text;
-    }
+    
     this._validateHasRan = false;
-    this.justRenderAfterValidate = justRenderAfterValidate;
+    
   }
 
-  canRender(){
-    if(!this.justRenderAfterValidate) return true;
+  canRender() {
+    if (!this.options.justRenderAfterValidate) return true;
 
-    return this.justRenderAfterValidate && this._validateHasRan;
+    return this.options.justRenderAfterValidate && this._validateHasRan;
   }
 
   reset() {
@@ -27,80 +38,73 @@ export default class SimpleFormValidation {
     this.errors[stateKeyName] = msg;
   }
 
-  setDisplayErrorCallback(callback){
-    this.displayErrorCallback = callback;
-  }
   resetErrors() {
     this.errors = {};
   }
- 
-  isValid(){
+
+  isValid() {
     return !this.hasErrors();
   }
-  
-  hasErrors(){
+
+  hasErrors() {
     return Object.keys(this.errors).length > 0;
   }
 
   renderAllErrors() {
-    if(!this.canRender()) return null;
+    if (!this.canRender()) return null;
     const errorList = [];
-    for(var key in this.errors){
-      errorList.push(this.displayErrorCallback(this.errors[key]));
-    }    
+    for (var key in this.errors) {
+      errorList.push(this.options.displayErrorCallback(this.errors[key]));
+    }
     return errorList;
   }
-  
+
   renderError(field, value) {
-    if ( !this.canRender() ) return null;
-    if ( typeof this.rules[field] === 'undefined' ) return null;
-    
+    if (!this.canRender()) return null;
+    if (typeof this.rules[field] === 'undefined') return null;
+
     this.rules[field].run(value);
 
-    if ( this.rules[field].hasError() ) {
-
+    if (this.rules[field].hasError()) {
       const errorMessage = this.rules[field].getMessage();
       this.addError(field, errorMessage);
-      if(errorMessage==''){
+      if (errorMessage == '') {
         console.warn(`Empty validator message to '${field}'.`);
       }
-      return this.displayErrorCallback( errorMessage );
-
+      return this.options.displayErrorCallback(errorMessage);
     } else {
       delete this.errors[field];
       return null;
     }
   }
 
-  field(fieldName, reset = false){
-    if(reset || typeof this.rules[fieldName] === 'undefined') {
-      this.rules[fieldName] = new ValidationRule();
+  field(fieldName, reset = false) {
+    if (reset || typeof this.rules[fieldName] === 'undefined') {
+      this.rules[fieldName] = new Field(this.options.defaultMessage);
     }
     return this.rules[fieldName];
   }
- 
-  validate(state){
-    return new Promise ((resolve, reject) => {
-      if ( this.validateSync(state) ) {
+
+  validate(state) {
+    return new Promise((resolve, reject) => {
+      if (this.validateSync(state)) {
         resolve();
       } else {
         throw this.errors;
       }
     });
   }
-  validateSync(state){
+  validateSync(state) {
     this._validateHasRan = true;
     this.resetErrors();
-    for(var key in this.rules){
-   
+    for (var key in this.rules) {
       const validator = this.rules[key].validator;
       const result = validator.run(state[key]);
-     
-      if ( result!==true ) {
+
+      if (result !== true) {
         this.addError(key, validator.getMessage());
       }
     }
     return !this.hasErrors();
   }
-
 }
