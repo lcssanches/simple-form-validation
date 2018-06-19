@@ -120,16 +120,16 @@ See [validators](#validators).
 
 ### Options
 ```
-	// This are the default options, you don't need to pass it, 
-	// but you can change if you want.
-    const sfvOptions  = {
-		justRenderAfterValidate:  true,
-		defaultMessage:  '',
-		displayErrorCallback:  text  => {
-			return  text;
-		}
-	};
-	this.sfv = new SimpleFormValidation(sfvOptions);
+// This are the default options, you don't need to pass it, 
+// but you can change if you want.
+const sfvOptions  = {
+  justRenderAfterValidate:  true,
+  defaultMessage:  '',
+  displayErrorCallback:  text  => {
+  return  text;
+  }
+};
+this.sfv = new SimpleFormValidation(sfvOptions);
 ```
 |Option|Description|Default|
 |--|--|--|
