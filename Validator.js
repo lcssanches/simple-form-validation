@@ -7,17 +7,24 @@ export default class Validator {
     this.failed = false;
   }
 
+  /**
+   * Return the index of step, if exists.
+   * @param {*} name 
+   */
   _stepExists(name) {
-    for (let i = 0; i < this.steps.length; i++) {
+    for (var i = 0; i < this.steps.length; i++) {
       if (this.steps[i].name == name) {
-        return true;
+        return i;
       }
     }
-
     return false;
   }
 
   addStep(name, callback, message) {
+    const stepExists = this._stepExists(name);
+    if (stepExists !== false){
+      this.steps.splice(stepExists, 1)
+    }
     this.steps.push({ name, callback, message });
   }
 
