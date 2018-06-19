@@ -95,6 +95,8 @@ Ofcourse you can check for a specific field
 SFV.field('fieldname').hasError(); // true|false
 ```
 
+It's important to mention that this will not run validation for this field again.
+
 ##### Bulk Validation
 
 ```
