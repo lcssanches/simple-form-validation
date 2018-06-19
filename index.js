@@ -13,13 +13,13 @@ export default class SimpleFormValidation {
 
     //TODO: Add tests to 'justRenderAfterValidate'
 
-    this.options = {...defaultOptions, ...params};
+    this.options = { ...defaultOptions, ...params };
 
-    this.rules = [];
+    this.fields = [];
     this.errors = {};
-    
+
     this._validateHasRan = false;
-    
+
   }
 
   canRender() {
@@ -29,7 +29,7 @@ export default class SimpleFormValidation {
   }
 
   reset() {
-    this.rules = [];
+    this.fields = [];
     this._validateHasRan = false;
     this.resetErrors();
   }
@@ -61,12 +61,15 @@ export default class SimpleFormValidation {
 
   renderError(field, value) {
     if (!this.canRender()) return null;
-    if (typeof this.rules[field] === 'undefined') return null;
+    if (typeof this.fields[field] === 'undefined') return null;
 
-    this.rules[field].run(value);
 
-    if (this.rules[field].hasError()) {
-      const errorMessage = this.rules[field].getMessage();
+    this.fields[field].run(value);
+
+
+
+    if (this.fields[field].hasError()) {
+      const errorMessage = this.fields[field].getMessage();
       this.addError(field, errorMessage);
       if (errorMessage == '') {
         console.warn(`Empty validator message to '${field}'.`);
@@ -78,11 +81,28 @@ export default class SimpleFormValidation {
     }
   }
 
-  field(fieldName, reset = false) {
-    if (reset || typeof this.rules[fieldName] === 'undefined') {
-      this.rules[fieldName] = new Field(this.options.defaultMessage);
+  /**
+   * 
+   * @param {object} obj Object with the values that fields must be setted.
+   * @param {boolean} reset If true, the the fields that are not found on obj, will be setted as null. Default true.
+   */
+  setValues(obj, reset = true) {
+    for (let k in this.fields) {
+      if (typeof obj[k] === 'undefined') {
+        if (reset) {
+          this.fields[k].setValue(null);
+        }
+      } else {
+        this.fields[k].setValue(obj[k]);
+      }
     }
-    return this.rules[fieldName];
+  }
+
+  field(fieldName, reset = false) {
+    if (reset || typeof this.fields[fieldName] === 'undefined') {
+      this.fields[fieldName] = new Field(this.options.defaultMessage);
+    }
+    return this.fields[fieldName];
   }
 
   validate(state) {
@@ -94,15 +114,20 @@ export default class SimpleFormValidation {
       }
     });
   }
+
   validateSync(state) {
     this._validateHasRan = true;
     this.resetErrors();
-    for (var key in this.rules) {
-      const validator = this.rules[key].validator;
-      const result = validator.run(state[key]);
+    
+    if (typeof state === 'undefined') {
+      this.setValues(state);
+    }
+
+    for (var key in this.fields) {
+      const result = this.fields[key].run();
 
       if (result !== true) {
-        this.addError(key, validator.getMessage());
+        this.addError(key, this.fields[key].validator.getMessage());
       }
     }
     return !this.hasErrors();
