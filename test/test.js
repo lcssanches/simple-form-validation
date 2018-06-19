@@ -21,7 +21,6 @@ describe('Validator', function() {
     
 
     _sfv.field('name', true).text().required('Required');
-console.log(_sfv.field('name').getType());
     it('should not has error', function() {
       _sfv.validateSync({name: 'test'})
       //console.log(_sfv.field('name').hasError());
