@@ -5,9 +5,30 @@
 
 # Simple Form Validation
 
+
 An easy-to-use **react-native form validation** highly customizable.
 
 With this module you can render an error message and prevent form submission with invalid data.
+
+
+- [Simple Form Validation](#simple-form-validation)
+    - [How to use](#how-to-use)
+      - [Installation](#installation)
+      - [Usage](#usage)
+        - [Setup](#setup)
+        - [Single Validation](#single-validation)
+        - [Check if rules are valid](#check-if-rules-are-valid)
+        - [Bulk Validation](#bulk-validation)
+        - [Rendering](#rendering)
+        - [Custom validators](#custom-validators)
+    - [Cheat Sheet](#cheat-sheet)
+      - [ValidatorNumeric](#validatornumeric)
+      - [ValidatorText](#validatortext)
+      - [ValidatorEmail](#validatoremail)
+      - [ValidatorDate](#validatordate)
+      - [ValidatorCPF](#validatorcpf)
+    - [Contributing](#contributing)
+    - [Third-party Components](#third-party-components)
 
 
 ### How to use
