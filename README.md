@@ -1,5 +1,6 @@
 
 [![npm](https://img.shields.io/npm/v/simple-form-validation.svg)](https://www.npmjs.com/package/simple-form-validation)
+[![Build Status](https://travis-ci.org/lcssanches/simple-form-validation.svg?branch=master)](https://travis-ci.org/lcssanches/simple-form-validation)
 
 
 # Simple Form Validation
