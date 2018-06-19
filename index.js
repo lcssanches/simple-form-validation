@@ -119,7 +119,7 @@ export default class SimpleFormValidation {
     this._validateHasRan = true;
     this.resetErrors();
     
-    if (typeof state === 'undefined') {
+    if (typeof state !== 'undefined') {
       this.setValues(state);
     }
 
