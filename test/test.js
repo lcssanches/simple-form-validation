@@ -5,20 +5,6 @@ const assert = require('assert');
 
 describe ( 'SimpleFormValidation', function(){
 
-  const _sfv = new SFV();
-
-  _sfv.field('name').text().required('Required');
-
-  it('should not has error', function() {
-    _sfv.validateSync({name: 'teste'})
-    assert(_sfv.field('name').hasError()===false);
-  });
-
-  it('should has error', function() {
-    _sfv.validateSync({name: ''})
-    assert(_sfv.field('name').hasError()===true);
-  });
-
 
 } );
 
@@ -30,25 +16,46 @@ describe('Validator', function() {
     assert.equal(_validator.steps.length, 1);
   });
   describe('rule:required', function() {
-    it('should require callback fail if null or empty', function() {
-      const _sfv = new SFV();
+    
+    const _sfv = new SFV();
+    
 
-      _sfv.field('testkey').text().required('Required');
-      _sfv.validateSync({"testkey":""});
-      assert(_sfv.hasErrors(), true);
+    _sfv.field('name', true).text().required('Required');
+console.log(_sfv.field('name').getType());
+    it('should not has error', function() {
+      _sfv.validateSync({name: 'test'})
+      //console.log(_sfv.field('name').hasError());
+      assert(_sfv.field('name').hasError()===false);
     });
-    it('should require callback NOT fail if has content', function() {
-      const _sfv = new SFV();
 
-      _sfv.field('testkey').text().required('Required');
-      _sfv.validateSync({"testkey":"test content"});
-      assert(_sfv.isValid(), true);
+    
+    it('null should has error because has not run yet', function() {
+      
+      _sfv.field('name', true).text().required('Required');
+      //_sfv.validateSync({name: null})
+      assert(_sfv.field('name').hasError()===false);
     });
+
+
+    it('null should has error', function() {
+      _sfv.validateSync({name: null})
+      assert(_sfv.field('name').hasError());
+    });
+    
+    it('empty should has error', function() {
+      _sfv.validateSync({name: ''})
+      assert(_sfv.field('name').hasError());
+    });
+    it('0 should not has error', function() {
+      _sfv.validateSync({name: 0})
+      assert(_sfv.field('name').hasError()===false);
+    });
+
   });
 });
 
 
-describe('ValidatorString', function (){
+describe('ValidatorText', function (){
   
   it(`should maxLength = 5 pass`, function(){
     const _sfv = new SFV();
