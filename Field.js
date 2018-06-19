@@ -7,21 +7,39 @@ export default class Field {
   constructor(defaultMessage) {
     this.validator = null;
     this.defaultMessage = defaultMessage;
-    this.lastValueTested = undefined;
+    this.value = undefined;
+    this.hasRan = false;
+  }
+
+  getType(){
+    return this.validator.constructor.name;
+  }
+
+  setValue(value) {
+    this.value = value;
   }
 
   hasError() {
+    
+    if(!this.hasRan) return false;
+
+    this.run();
+
     return this.validator.failed === true;
   }
 
   run(value) {
-    if (typeof this.lastValueTested !== 'undefined' && this.lastValueTested === value) {
-      // If the value is equal the last one,
-      // we do not need to run validator again.
-      return !this.hasError();
+    if (typeof value !== 'undefined') {
+      if (typeof this.value !== 'undefined' && this.value === value) {
+        // If the value is equal the last one,
+        // we do not need to run validator again.
+        return !this.hasError();
+      }
+      this.value = value;
     }
-    this.lastValueTested = value;
-    return this.validator.run(value);
+    
+    this.hasRan = true;
+    return this.validator.run(this.value);
   }
 
   getMessage() {
