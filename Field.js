@@ -6,18 +6,25 @@ import ValidatorCPF from './ValidatorCPF';
 export default class Field {
   constructor(defaultMessage) {
     this.validator = null;
-    this._defaultMessage = defaultMessage;
+    this.defaultMessage = defaultMessage;
+    this.lastValueTested = undefined;
   }
 
-  hasError(){
+  hasError() {
     return this.validator.failed === true;
   }
 
-  run(value){
+  run(value) {
+    if (typeof this.lastValueTested !== 'undefined' && this.lastValueTested === value) {
+      // If the value is equal the last one,
+      // we do not need to run validator again.
+      return !this.hasError();
+    }
+    this.lastValueTested = value;
     return this.validator.run(value);
   }
 
-  getMessage(){
+  getMessage() {
     return this.validator.getMessage();
   }
 
@@ -27,28 +34,27 @@ export default class Field {
   }
 
   numeric(m) {
-    this.validator = new ValidatorNumeric(m || this._defaultMessage);
+    this.validator = new ValidatorNumeric(m || this.defaultMessage);
     return this.validator;
   }
- 
-  text(m){
-    this.validator = new ValidatorText(m || this._defaultMessage);
+
+  text(m) {
+    this.validator = new ValidatorText(m || this.defaultMessage);
     return this.validator;
   }
-  
+
   date(format, m) {
-    this.validator = new ValidatorDate(format, m || this._defaultMessage);
+    this.validator = new ValidatorDate(format, m || this.defaultMessage);
     return this.validator;
   }
 
-  email(m){
-    this.validator = new ValidatorEmail(m || this._defaultMessage);
+  email(m) {
+    this.validator = new ValidatorEmail(m || this.defaultMessage);
     return this.validator;
   }
 
-  cpf(m){
-    this.validator = new ValidatorCPF(m || this._defaultMessage);
+  cpf(m) {
+    this.validator = new ValidatorCPF(m || this.defaultMessage);
     return this.validator;
   }
-
 }
