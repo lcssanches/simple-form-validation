@@ -26,7 +26,7 @@ export default class ValidatorDate extends Validator {
   }
   maxAge(_maxAge, message){
     this.addStep(
-      'minAge',
+      'maxAge',
       function(v) {
         if(!moment(v, this._dateFormat).isValid()){
           return false;
