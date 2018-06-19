@@ -126,7 +126,7 @@ const sfvOptions  = {
   justRenderAfterValidate:  true,
   defaultMessage:  '',
   displayErrorCallback:  text  => {
-  return  text;
+    return  text;
   }
 };
 this.sfv = new SimpleFormValidation(sfvOptions);
@@ -170,7 +170,7 @@ SFV.validate({field:'value'}).then(()=>{
 ```
 
 ### Custom validators
-You can define you own custom validator, to meet you requirements.
+You can define your own custom validator, to meet your requirements.
 ```
 class IsNumberOneValidator extends Validator {
   isNumberOne(message){
@@ -256,7 +256,7 @@ SFV.field('fieldName')
   .valid(message);
 ```
 #### Custom Validator
-See custom validators.
+See [custom validators](#custom-validators).
 
 ### Contributing
 
