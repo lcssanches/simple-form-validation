@@ -26,7 +26,8 @@ export default class Validator {
       'required',
       v => {
         if (typeof v === 'undefined') return false;
-        if (String(v) === '') return false;
+        if (v === null) return false;
+        if (String(v) == '') return false;
         return true;
       },
       message
