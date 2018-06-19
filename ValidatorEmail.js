@@ -32,7 +32,7 @@ export default class ValidatorEmail extends Validator {
       'notFrom',
       function(v) {
         let domainListLength = domainValue.length;
-        for (; --domainListLength; ) {
+        for (; domainListLength--; ) {
           if (v.endsWith(domainValue[domainListLength])) return false;
         }
         return true;
