@@ -10,162 +10,169 @@ An easy-to-use **react-native form validation** highly customizable.
 
 With this module you can render an error message and prevent form submission with invalid data.
 
-
 - [Simple Form Validation](#simple-form-validation)
-    - [How to use](#how-to-use)
-      - [Installation](#installation)
-      - [Usage](#usage)
-        - [Setup](#setup)
-        - [Single Validation](#single-validation)
-        - [Check if rules are valid](#check-if-rules-are-valid)
-        - [Bulk Validation](#bulk-validation)
-        - [Rendering](#rendering)
-        - [Custom validators](#custom-validators)
-    - [Cheat Sheet](#cheat-sheet)
+  - [How to use](#how-to-use)
+    - [Installation](#installation)
+    - [Basic usage](#basic-usage)
+  - [How to ...](#how-to-)
+    - [... check if a number is greater than 5](#-check-if-a-number-is-greater-than-5)
+    - [... check if an email is valid](#-check-if-an-email-is-valid)
+    - [... check if the name was provided](#-check-if-the-name-was-provided)
+    - [... check if a the value matches the regex](#-check-if-a-the-value-matches-the-regex)
+    - [... check if a specific field has error](#-check-if-a-specific-field-has-error)
+  - [Advanced use](#advanced-use)
+    - [Options](#options)
+    - [Rendering errors](#rendering-errors)
+    - [Sync validation vs Promise Validation](#sync-validation-vs-promise-validation)
+    - [Custom validators](#custom-validators)
+    - [Reset](#reset)
+  - [Cheat Sheet](#cheat-sheet)
+    - [Validators](#validators)
       - [ValidatorNumeric](#validatornumeric)
       - [ValidatorText](#validatortext)
       - [ValidatorEmail](#validatoremail)
       - [ValidatorDate](#validatordate)
       - [ValidatorCPF](#validatorcpf)
+      - [Custom Validator](#custom-validator)
     - [Contributing](#contributing)
     - [Third-party Components](#third-party-components)
 
+## How to use
 
-### How to use
-
-#### Installation
-
-
+### Installation
 ```
 npm install simple-form-validation --save
 ```
-
-#### Usage
-
-##### Setup
-Import and create your instance.
-
+### Basic usage
 ```
 import SimpleFormValidation from 'simple-form-validation';
-const SFV = new SimpleFormValidation();
-```
 
-Create your rules. 
-
-You can set a default error message, or set it to specific rule
-
-```
-SFV.field('keyname')
-  .numeric('Default message')
-  .max(10);
-SFV.field('keyname2')
-  .text('Default message')
-  .maxLength(6, 'Max length is 6');
-```
-
-You also can chain rules of a Validator. Rules are executed on the same order they're chained
-
-```
-// Number between 2 and 10
-SFV.field('keyname')
-  .numeric('Default message')
-  .max(10, 'For max(10), use this message')
-  .min(2); 
-
-// Must be 6 characters long and met the regex
-SFV.field('keyname2')
-  .text('Default message')
-  .maxLength(6, 'Required weak password')
-  .regex(/.+/);
-```
-
-##### Single Validation
-
-```
-/* some logic */
-this.state = {
-  keyname: 1,
-  keyname2: 'succes',//s
-}
-/* more logic */
-//returns the message of the error.
-SFV.renderError('keyname', this.values.keyname); 
-```
-
-Example:
-
-```
-render() {
-  return (
-    <View>
-      <Text>Email</Text>
-      <TextInput onChangeText={email=>this.setState({email})}/>
-      {this.SFV.renderError('email', this.state.email)}
-    </View>
-  );
-}
-```
-
-##### Check if rules are valid
-
-Required to prevent form submission when has errors.
-
-```
-SFV.hasErrors(); // true|false
-SFV.isValid();   // true|false
-```
-
-Ofcourse you can check for a specific field
-
-```
-SFV.field('fieldname').hasError(); // true|false
-```
-
-It's important to mention that this will not run validation for this field again.
-
-##### Bulk Validation
-
-```
-//Promise usage
-SFV.validate(state).then(()=>{
-  //all good, let's go
-}).catch((errors)=>{
-  //errors -> list of errors :)
-});
-
-// OR - sync old-fashion way
-SFV.validateSync(state); // returns true/false
-
-// You can access the errors here
-SFV.errors;
-```
-
-##### Rendering
-
-By default, renderError will just return the error message (if it exists)
-
-```
-const styles = StyleSheet.create({
-  error:{
-    color: '#d00',
-    fontSize: 12,
+class SFVTestComponent extends Component {
+  constructor(props){
+    super(props);
+    
+    this.SFV = new SimpleFormValidation(sfvOptions);
+    this.SFV.field('email').email().required('Required').valid('Invalid e-mail');
   }
-});
-SFV.setDisplayErrorCallback(function(message) {
-  return <Text style={styles.error}>{message}</Text>
+  state = {
+    email: ''
+  }
+  onButtonPress() {
+    if( this.SFV.validateSync() ) {
+	    alert('OK, no errors found');
+	} else {
+		alert('There are errors');
+	}
+    // You can pass the values here too...
+    // this.SFV.validateSync(this.state);
+    // The same as .setValues() before .validate()
+  }
+  render() {
+    
+    this.SFV.setValues(this.state);
+    // OR - this.SFV.field('email').setValue(this.state.email);
+    return (
+      <View>
+        <Text>Enter you e-mail</Text>
+        <TextInput onChangeText={email=>this.setState({email})}/>
+        <Button onPress={()=>{this.onButtonPress()}}>
+	        <Text>Press me</Text>
+        <Button>
+        {this.SFV.renderError('email')}
+      </View>
+      <View>
+        E-mail has error? { this.SFV.field('email').hasError()
+                              ? 'Yes...'
+                              : 'No, all good'}
+      </View>
+    );
+  }
+}
+```
+
+
+## How to ...
+
+### ... check if a number is greater than 5
+```
+this.sfv.field('myNumericField').numeric().min(6, 'The number should be >5.');
+```
+### ... check if an email is valid
+```
+this.sfv.field('emailField').email().valid('The address you provided is invalid.');
+```
+### ... check if the name was provided
+```
+this.sfv.field('nameField').text().required('Name is required.')
+```
+### ... check if a the value matches the regex
+```
+this.sfv.field('password').text().regex(/^(asdf)$/, 'You password is too weak.')
+```
+### ... check if a specific field has error
+This is useful to style the field with error
+```
+this.sfv.field('password').hasError(); // return true/false
+```
+See [validators](#validators).
+
+## Advanced use
+
+### Options
+```
+	// This are the default options, you don't need to pass it, 
+	// but you can change if you want.
+    const sfvOptions  = {
+		justRenderAfterValidate:  true,
+		defaultMessage:  '',
+		displayErrorCallback:  text  => {
+			return  text;
+		}
+	};
+	this.sfv = new SimpleFormValidation(sfvOptions);
+```
+|Option|Description|Default|
+|--|--|--|
+|justRenderAfterValidate|If `false`, will render errors as soon as form is shown. If `true` it will wait until you call `.validate()` or `.validateSync()` for the first time.|`true`|
+|defaultMessage|This message will be passed over validators if you do not provide an default message to the validator|*empty*
+|displayErrorCallback|This callback is called on .renderError()|`text=>{return text;}`|
+
+### Rendering errors
+`displayErrorCallback` allows you to define you own custom renderer.
+
+> **Important!** If a field has error, but no message was set, a warning will be generated before it's rendered. It will call the renderer callback anyway.
+```
+{
+	displayErrorCallback: text => {
+		return <Text style={{color: '#d00'}}>{text}</Text>
+	}
+}
+```
+
+### Sync validation vs Promise Validation
+There's no big difference. Internally, `.validate()` calls `.validateSync()`.
+```
+if ( SFV.validateSync({field: 'value'}) ){
+	// all good
+} else {
+	// one or more things are wrong...
+	// SFV.errors hold the list of errors
+}
+
+// - OR
+
+SFV.validate({field:'value'}).then(()=>{
+	// all good
+}).catch(errors => {
+	// one or more things are wrong...
+	// errors hold the list of errors
 });
 ```
 
-> If a field has error, but no message was set, a warning will be generated before it's rendered. It will call the renderer callback anyway.
-
-##### Custom validators
-
-You can also add custom validators with your own rules. 
-
-To do that create a class extending the class Validator and add rules (functions) to your Validator:
-
+### Custom validators
+You can define you own custom validator, to meet you requirements.
 ```
-class IsNumberOnValidator extends Validator {
+class IsNumberOneValidator extends Validator {
   isNumberOne(message){
     this.addStep(
       'isNumberOne',         // rule name
@@ -174,32 +181,24 @@ class IsNumberOnValidator extends Validator {
     );
   }
 }
-
-// set new rules with `custom` validator
+/* *** */
 SFV.field('AmINumberOne')
-  .custom(new IsNumberOnValidator())
+  .custom(new IsNumberOneValidator())
   .isNumberOne('You shall not pass!');
-
-// render error
+/* *** */
 SFV.renderError('AmINumberOne', 1); //return null
 SFV.renderError('AmINumberOne', 2); //return "You shall not pass!"
-
-SFV.validate({
-  AmINumberOne: 2
-}).then(()={
-  // you should not be here
-}).catch(err =>{
-  // ok...
-});
 ```
 
-You can also reset all rules for any reason you can:
-
+### Reset
+You can reset the SFV, if you want.
 ```
-SFV.reset(); 
+SFV.reset(); // cleans all fields, rules and errors
 ```
 
-### Cheat Sheet
+## Cheat Sheet
+
+### Validators
 
 Messages from rules are always optional.
 
@@ -214,7 +213,7 @@ SFV.field('fieldName')
 
 #### ValidatorText
 
-Internally, .regex uses `regex.test(v)`.
+Internally, .regex() uses `regex.test(v)`.
 
 ```
 SFV.field('fieldName')
@@ -256,6 +255,8 @@ SFV.field('fieldName')
   .cpf(defaultMessage)
   .valid(message);
 ```
+#### Custom Validator
+See custom validators.
 
 ### Contributing
 
