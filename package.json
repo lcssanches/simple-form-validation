@@ -2,7 +2,7 @@
   "name": "simple-form-validation",
   "description": "",
   "readmeFilename": "README.md",
-  "version": "0.1.21",
+  "version": "0.1.22",
   "main": "index.js",
   "scripts": {
     "test": "mocha --require babel-core/register",
@@ -28,7 +28,8 @@
   "homepage": "https://github.com/lcssanches/simple-form-validation",
   "dependencies": {
     "cpx": "^1.5.0",
-    "moment": "^2.22.2"
+    "moment": "^2.22.2",
+    "npm": "^6.1.0"
   },
   "devDependencies": {
     "babel-preset-es2015": "^6.24.1",
