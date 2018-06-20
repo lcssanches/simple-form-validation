@@ -1,9 +1,5 @@
-/*
-  TODO: Remover adicão da rule no constructor
-  TODO: Adicionar rule .valid(message)
-  TODO: Adicionar rule .notFrom(domain|domainList|[domains]);
-*/
 import Validator from './Validator';
+
 export default class ValidatorCPF extends Validator {
   constructor(defaultMessage) {
     super(defaultMessage);
@@ -20,55 +16,36 @@ export default class ValidatorCPF extends Validator {
   }
 }
 
-function calcDigit(firstNineDigits) {
-  const _1stDigit = calcDigit1(firstNineDigits);
+function validate(rawCpf) {
 
-  const _2ndDigit = calcDigit2(firstNineDigits + _1stDigit);
+  var cpf = rawCpf.replace(/\.|-|\s/g, '')
 
-  return '' + _1stDigit + _2ndDigit;
-}
-function calcDigit1(firstNineDigits) {
-  var sum = 0;
+  if ( cpf.length != 11 ) return false;
+  if (/^(.)\1+$/.test(cpf)) return false;
 
-  for (var j = 0; j < 9; ++j) {
-    sum += firstNineDigits.toString().charAt(j) * (10 - j);
+  cpf = cpf.split('');
+
+  var sum1 = 0;
+  for( let c = 10; c>=2 ; c--){
+    sum1 += c * cpf[10-c];
   }
+  var checkSum1 = sum1  % 11
+  checkSum1 = checkSum1 < 2 
+                  ? 0 
+                  : 11 - checkSum1;
 
-  const sumChecker = sum % 11;
-  const checker1 = sumChecker < 2 ? 0 : 11 - sumChecker;
+  if (cpf[9] != checkSum1) return false;
 
-  return checker1.toString();
-}
-
-function calcDigit2(cpfWithChecker1) {
-  var sum = 0;
-
-  for (var k = 0; k < 10; ++k) {
-    sum += cpfWithChecker1.toString().charAt(k) * (11 - k);
+  var sum2 = 0;
+  for( let c = 11; c>=2 ; c--){
+    sum2 += c*cpf[11-c];
   }
+  var checkSum2 = sum2 % 11
+  checkSum2 = checkSum2 < 2 
+                  ? 0 
+                  : 11 - checkSum2;
 
-  const sumChecker = sum % 11;
-  const checker2 = sumChecker < 2 ? 0 : 11 - sumChecker;
+  if (cpf[10] != checkSum2) return false;
 
-  return checker2.toString();
-}
-function validate(value) {
-  value = String(value);
-  
-  const cpf = value.replace(/\.|-|\s/g, '');
-  if (cpf.length !== 11) return false;
-
-  const firstNineDigits = cpf.substring(0, 9);
-
-  const checker = cpf.substring(9, 11);
-
-
-  const firstDigit = cpf.substring(0, 1);
-
-
-  if(/^(.)\1+$/.test(cpf)){
-    return false;
-  }
-  
-  return checker === calcDigit(firstNineDigits);
+  return true;
 }
