@@ -18,27 +18,48 @@ export default class ValidatorEmail extends Validator {
     return this;
   }
 
+  onlyFrom(domains, message) {
+
+    var domainValue = normalizeDomains(domains);
+
+    this.addStep(
+      'onlyFrom',
+      function(v) {
+        let domainListLength = domainValue.length;
+        for (; domainListLength--; ) {
+          if (v.toLowerCase().endsWith(domainValue[domainListLength].toLowerCase())) return true;
+        }
+        return false;
+      },
+      message
+    );
+    return this;
+  }
+  
   notFrom(domains, message) {
-    var domainValue = null;
-    if (typeof domains === 'string' && domains.indexOf(',') !== -1) {
-      domainValue = domains.split(',');
-    } else if (domains instanceof Array) {
-      domainValue = domains;
-    } else {
-      domainValue = [domains];
-    }
+    var domainValue = normalizeDomains(domains);
 
     this.addStep(
       'notFrom',
       function(v) {
         let domainListLength = domainValue.length;
         for (; domainListLength--; ) {
-          if (v.endsWith(domainValue[domainListLength])) return false;
+          if (v.toLowerCase().endsWith(domainValue[domainListLength].toLowerCase())) return false;
         }
         return true;
       },
       message
     );
     return this;
+  }
+}
+
+function normalizeDomains(domains){
+  if (typeof domains === 'string' && domains.indexOf(',') !== -1) {
+    return domains.split(',');
+  } else if (domains instanceof Array) {
+    return domains;
+  } else {
+    return [domains];
   }
 }
