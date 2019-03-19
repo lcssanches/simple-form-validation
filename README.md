@@ -235,6 +235,7 @@ SFV.field('fieldName')
    // const domains = "@hotmail.com,@gmail.com"
    // const domains = ['@hotmail.com','@gmail.com']
   .notFrom(domains)
+  //.onlyFrom(domains)
   .valid(message);
 ```
 
