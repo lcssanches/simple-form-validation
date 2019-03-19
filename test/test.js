@@ -160,6 +160,11 @@ describe('SimpleFormValidation', function () {
         _sfv.validateSync({ "testkey": invalidEmail });
         assert(!_sfv.isValid());
       })
+      const invalidEmail2 = "@email.com";
+      it(`"${invalidEmail2}" should NOT pass`, function () {
+        _sfv.validateSync({ "testkey": invalidEmail2 });
+        assert(!_sfv.isValid());
+      })
     });
 
     describe('.notFrom("@fake-domain.com")', function () {
@@ -176,6 +181,24 @@ describe('SimpleFormValidation', function () {
       it(`"${validEmail2}" should NOT pass`, function () {
         _sfv.validateSync({ "testkey": validEmail2 });
         assert(!_sfv.isValid());
+      });
+    });
+
+
+    describe('.onlyFrom("@fake-domain.com")', function () {
+      const _sfv = new SFV();
+      _sfv.field('testkey').email().valid().onlyFrom('@fake-domain.com');
+
+      var validEmail = "valid-but-not-allowed@email.com";
+      it(`"${validEmail}" should NOT pass`, function () {
+        _sfv.validateSync({ "testkey": validEmail });
+        assert(!_sfv.isValid());
+      });
+
+      let validEmail2 = "valid-but-allowed@fake-domain.com";
+      it(`"${validEmail2}" should pass`, function () {
+        _sfv.validateSync({ "testkey": validEmail2 });
+        assert(_sfv.isValid());
       });
     });
 
